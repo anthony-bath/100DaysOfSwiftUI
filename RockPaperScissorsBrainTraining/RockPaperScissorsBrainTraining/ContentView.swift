@@ -7,30 +7,18 @@
 
 import SwiftUI
 
-struct ImageButton: View {
-    var imageName: String
-    var action: () -> Void
-    
-    var body: some View {
-        Button {
-            action()
-        } label: {
-            Image(systemName: "\(imageName)")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 85, height: 85)
-                .foregroundColor(.white)
-        }
-        .frame(width: 200, height: 125)
-        .background(Color(red: 0.4, green: 0.2, blue: 0.6))
-        .clipShape(Capsule())
-    }
-}
-
 struct ContentView: View {
+    @State private var choices = ["👊","✌️","✋"]
+    @State private var shouldWin = Bool.random();
+    @State private var selected = Int.random(in: 0...2)
     
-    @State private var choices = ["Rock", "Paper", "Scissors"]
+    @State private var showingScore = false
+    @State private var scoreTitle = ""
+    @State private var score = 0
     
+    @State private var roundsPlayed = 0
+    @State private var showingGameEnded = false
+
     var body: some View {
         ZStack {
             Color(red: 0.12, green: 0.18, blue: 0.3)
@@ -45,19 +33,106 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                ImageButton(imageName: "mountain.2", action: onSelectAnswer(type: "Rock"))
-                ImageButton(imageName: "doc", action: onSelectAnswer(type: "Paper"))
-                ImageButton(imageName: "scissors", action: onSelectAnswer(type: "Scissors"))
+                VStack(spacing: 15) {
+                    VStack {
+                        Text("\(shouldWin ? "Win" : "Lose") against")
+                            .foregroundStyle(.secondary)
+                            .font(.system(size: 24))
+                            .bold()
+                        
+                        Text(choices[selected])
+                            .font(.system(size: 36))
+                    }
+                    .padding(.bottom, 30)
+                    
+                    
+                    ForEach(0..<3) { number in
+                        Button(choices[number]) {
+                            onSelectAnswer(answer: number)
+                        }
+                        .clipShape(Circle())
+                        .buttonStyle(.bordered)
+                        .font(.system(size: 80))
+                        .overlay(
+                            Capsule(style: .continuous)
+                                .stroke(
+                                    Color.black,
+                                    style: StrokeStyle(lineWidth: 5, dash: [1])
+                                )
+                        )
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .background(.regularMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
                 
                 Spacer()
+                
+                Text("Score: \(score)")
+                    .foregroundColor(.white)
+                    .font(.title.bold())
             }
+            .padding(.horizontal, 50)
+        }
+        .alert(scoreTitle, isPresented: $showingScore) {
+            Button("Continue", action: prepareNextRound)
+        } message: {
+            Text("Your score is \(score)")
+        }
+        .alert("Game Ended", isPresented: $showingGameEnded) {
+            Button("Play Again", action: startOver)
+        } message: {
+            Text("You scored \(score) out of 10!")
         }
     }
     
-    func onSelectAnswer(type: String) -> () -> Void {
-        func action() { }
+    func onSelectAnswer(answer: Int) {
+        let selected: String = choices[selected]
+        let player: String = choices[answer]
+        let correctAnswer: String
         
-        return action
+        if (shouldWin) {
+            switch (selected) {
+            case "👊": correctAnswer = "✋"
+            case "✋": correctAnswer = "✌️"
+            case "✌️": correctAnswer = "👊"
+            default: correctAnswer = ""
+            }
+        } else {
+            switch (selected) {
+            case "👊": correctAnswer = "✌️"
+            case "✋": correctAnswer = "👊"
+            case "✌️": correctAnswer = "✋"
+            default: correctAnswer = ""
+            }
+        }
+        
+        if (player == correctAnswer) {
+            scoreTitle = "Correct!"
+            score += 1
+        } else {
+            scoreTitle = "Wrong - correct was \(correctAnswer)"
+        }
+        
+        roundsPlayed += 1
+        showingScore = true
+    }
+    
+    func prepareNextRound() {
+        if (roundsPlayed == 10) {
+            showingGameEnded = true
+        } else {
+            shouldWin = Bool.random()
+            selected = Int.random(in: 0...2)
+            choices.shuffle()
+        }
+    }
+    
+    func startOver() {
+        score = 0
+        roundsPlayed = 0
+        prepareNextRound()
     }
 }
 
