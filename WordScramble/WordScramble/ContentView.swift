@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var usedWords = [String]()
     @State private var rootWord = ""
     @State private var newWord = ""
+    @State private var score = 0
     
     @State private var errorTitle = ""
     @State private var errorMessage = ""
@@ -41,6 +42,14 @@ struct ContentView: View {
             } message: {
                 Text(errorMessage)
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text("Score: \(score)")
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Start Game", action: startGame)
+                }
+        }
         }
     }
     
@@ -49,6 +58,9 @@ struct ContentView: View {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWorlds = startWords.components(separatedBy: "\n")
                 rootWord = allWorlds.randomElement() ?? "silkworm"
+                usedWords = [String]()
+                score = 0
+                newWord = ""
                 return
             }
         }
@@ -88,6 +100,10 @@ struct ContentView: View {
         return misspelledRange.location == NSNotFound
     }
     
+    func isLongEnough(word: String) -> Bool {
+        return word.count > 3
+    }
+    
     func wordError(title: String, message: String) {
         errorTitle = title
         errorMessage = message
@@ -113,6 +129,18 @@ struct ContentView: View {
             wordError(title: "Word not recognized", message: "You can't just make them up")
             return
         }
+        
+        guard isLongEnough(word: answer) else {
+            wordError(title: "Word too short", message: "I need at least 3 letters out of you")
+            return
+        }
+        
+        guard (answer != rootWord) else {
+            wordError(title: "Really?", message: "Come on...")
+            return
+        }
+        
+        score += 1 + newWord.count
         
         withAnimation {
             usedWords.insert(answer, at: 0)
