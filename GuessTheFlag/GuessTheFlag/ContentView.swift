@@ -19,11 +19,15 @@ struct FlagImage: View {
 }
 
 struct ContentView: View {
+    @State private var canTap = true
     @State private var showingScore = false
     @State private var scoreTitle = ""
     @State private var score = 0
     @State private var questionsAnswered = 0
     @State private var showingGameEnded = false
+    @State private var animationAmounts = [0.0, 0.0, 0.0]
+    @State private var opacity = [1.0, 1.0, 1.0]
+    @State private var scale = [1.0, 1.0, 1.0]
     
     @State private var countries = [
         "Estonia",
@@ -68,9 +72,30 @@ struct ContentView: View {
                     
                     ForEach(0..<3) { number in
                         Button {
-                            flagTypped(number)
+                            if (canTap) {
+                                flagTapped(number)
+                                
+                                for i in 0..<3 {
+                                    withAnimation {
+                                        opacity[i] = i == number ? 1.0 : 0.2
+                                        scale[i] = i == number ? 1.25 : 0.75
+                                        
+                                        if i == number {
+                                            animationAmounts[i] += 360.0
+                                        }
+                                    }
+                                }
+                                
+                                canTap = false
+                            }
                         } label: {
                             FlagImage(country: countries[number])
+                                .rotation3DEffect(
+                                    .degrees(animationAmounts[number]),
+                                    axis: (x: 0, y: 1, z: 0)
+                                )
+                                .scaleEffect(scale[number])
+                                .opacity(opacity[number])
                         }
                     }
                 }
@@ -102,7 +127,7 @@ struct ContentView: View {
         }
     }
     
-    func flagTypped(_ number: Int) {
+    func flagTapped(_ number: Int) {
         questionsAnswered += 1
         
         if number == correctAnswer {
@@ -112,7 +137,9 @@ struct ContentView: View {
             scoreTitle = "Wrong - that is the flag of \(countries[number])"
         }
         
-        showingScore = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            showingScore = true
+        }
     }
     
     func askQuestion() {
@@ -122,6 +149,11 @@ struct ContentView: View {
             countries.shuffle()
             correctAnswer = Int.random(in: 0...2)
         }
+        
+        canTap = true
+        opacity = [1.0, 1.0, 1.0]
+        scale = [1.0, 1.0, 1.0]
+        animationAmounts = [0.0, 0.0, 0.0]
     }
     
     func reset() {
