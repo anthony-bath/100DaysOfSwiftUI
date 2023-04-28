@@ -9,14 +9,17 @@ import SwiftUI
 
 struct QuestionView: View {
     let question: Question
+    let onSubmit: () -> Void
     
-    @State private var answer = ""
+    @Binding var answer: String
+    
+    @FocusState private var answerFocused: Bool
     
     var body: some View {
         VStack(spacing: 25){
             ZStack {
                 Color(red: 0.5, green: 0.87, blue: 0.23)
-                    .frame(width: 300, height: 200)
+                    .frame(width: 300, height: 175)
                     .cornerRadius(25)
                     .shadow(color: Color.gray, radius: 5, x: 5, y: 5)
                 
@@ -27,7 +30,7 @@ struct QuestionView: View {
             
             ZStack {
                 Color(red: 0.5, green: 0.54, blue: 63)
-                    .frame(width: 300, height: 200)
+                    .frame(width: 300, height: 175)
                     .cornerRadius(25)
                     .shadow(color: Color.gray, radius: 5, x: 5, y: 5)
                 
@@ -40,6 +43,17 @@ struct QuestionView: View {
                         .multilineTextAlignment(.center)
                         .cornerRadius(25)
                         .keyboardType(.numberPad)
+                        .focused($answerFocused)
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Spacer()
+                                
+                                Button("Answer") {
+                                    answerFocused = false
+                                    onSubmit()
+                                }
+                            }
+                        }
                 }
             }
         }
@@ -51,10 +65,18 @@ struct PracticeView: View {
     let onFinish: () -> Void
     
     @State private var currentQuestion = 0
+    @State private var answer = ""
+    @State private var score = 0
+    @State private var scoreTitle = ""
+    @State private var scoreShown = false
     
     var body: some View {
         VStack {
-            QuestionView(question: configuration.questions[currentQuestion])
+            QuestionView(
+                question: configuration.questions[currentQuestion],
+                onSubmit: onSubmit,
+                answer: $answer
+            )
         }
         .navigationTitle("\(configuration.table) Times Table")
         .toolbar {
@@ -62,10 +84,36 @@ struct PracticeView: View {
                 Text("\(currentQuestion+1)/\(configuration.questions.count)")
             }
         }
+        .alert(scoreTitle, isPresented: $scoreShown) {
+            Button("Continue", action: onContinue)
+        } message: {
+            Text("Your score is \(score)/\(currentQuestion+1)")
+        }
     }
     
     func onSubmit() {
+        let submittedAnswer: Int = Int(answer) ?? 0
+        let correctAnswer = configuration.questions[currentQuestion].answer
         
+        if submittedAnswer == correctAnswer {
+            scoreTitle = "Correct!"
+            score += 1
+        } else {
+            scoreTitle = "Wrong - correct was \(correctAnswer)"
+        }
+        
+        scoreShown = true
+    }
+    
+    func onContinue() {
+        scoreShown = false
+        answer = ""
+        
+        if (currentQuestion == configuration.questions.count - 1) {
+            // No more questions
+        } else {
+            currentQuestion += 1
+        }
     }
 }
 
