@@ -66,9 +66,12 @@ struct PracticeView: View {
     
     @State private var currentQuestion = 0
     @State private var answer = ""
+    
     @State private var score = 0
     @State private var scoreTitle = ""
     @State private var scoreShown = false
+    
+    @State private var roundEndedShown = false
     
     var body: some View {
         VStack {
@@ -88,6 +91,14 @@ struct PracticeView: View {
             Button("Continue", action: onContinue)
         } message: {
             Text("Your score is \(score)/\(currentQuestion+1)")
+        }
+        .alert("Round Over!", isPresented: $roundEndedShown) {
+            Button("Continue", action: onFinish)
+        } message: {
+            Text("""
+                You got \(score) out of \(configuration.questions.count) - nice job!
+                Try another round soon!
+            """)
         }
     }
     
@@ -110,7 +121,7 @@ struct PracticeView: View {
         answer = ""
         
         if (currentQuestion == configuration.questions.count - 1) {
-            // No more questions
+            roundEndedShown = true
         } else {
             currentQuestion += 1
         }
