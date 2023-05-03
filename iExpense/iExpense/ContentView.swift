@@ -7,27 +7,75 @@
 
 import SwiftUI
 
+struct ExpenseItemView: View {
+    var item: ExpenseItem
+    
+    static let currencyCode = Locale.current.currency?.identifier ?? "USD"
+    let currencyFormat: FloatingPointFormatStyle<Double>.Currency = .currency(code: currencyCode)
+    
+    var body: some View {
+        HStack{
+            VStack(alignment: .leading) {
+                Text(item.name)
+                    .font(.headline)
+                Text(item.type)
+            }
+            
+            Spacer()
+            
+            Text(item.amount, format: currencyFormat)
+                .foregroundColor(getAmountColor(amount: item.amount))
+        }
+    }
+    
+    func getAmountColor(amount: Double) -> Color {
+        if (amount <= 10.0) { return Color.green }
+        if (amount <= 100.0) { return Color.blue }
+        
+        return Color.black
+    }
+}
+
 struct ContentView: View {
     @StateObject var expenses = Expenses()
     @State private var showingAddView = false
     
+    private var businessExpenses: [ExpenseItem] {
+        expenses.items.filter { $0.type == "Business" }
+    }
+    
+    private var personalExpenses: [ExpenseItem] {
+        expenses.items.filter { $0.type == "Personal" }
+    }
+    
     var body: some View {
         NavigationStack {
             List {
-                ForEach(expenses.items) { item in
-                    HStack{
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            Text(item.type)
+                if (personalExpenses.count > 0) {
+                    Section {
+                        ForEach(personalExpenses) { item in
+                            ExpenseItemView(item: item)
                         }
-                        
-                        Spacer()
-                        
-                        Text(item.amount, format: .currency(code: "USD"))
+                        .onDelete {
+                            removeItems(at: $0, from: personalExpenses)
+                        }
+                    } header: {
+                        Text("Personal")
                     }
                 }
-                .onDelete(perform: removeItems)
+                
+                if (businessExpenses.count > 0) {
+                    Section {
+                        ForEach(businessExpenses) { item in
+                            ExpenseItemView(item: item)
+                        }
+                        .onDelete {
+                            removeItems(at: $0, from: businessExpenses)
+                        }
+                    } header: {
+                        Text("Business")
+                    }
+                }
             }
             .navigationTitle("iExpense")
             .toolbar {
@@ -43,8 +91,21 @@ struct ContentView: View {
         }
     }
     
-    func removeItems(at offsets: IndexSet) {
-        expenses.items.remove(atOffsets: offsets)
+    func removeItems(at offsets: IndexSet, from collection: [ExpenseItem]) {
+        let indexes = Array(offsets)
+        var items = [ExpenseItem]()
+        
+        for i in 0..<collection.count {
+            if indexes.contains(i) {
+                items.append(collection[i])
+            }
+        }
+        
+        expenses.items.removeAll { item1 in
+            items.contains { item2 in
+                item2.id == item1.id
+            }
+        }
     }
 }
 
