@@ -52,7 +52,7 @@ struct ContentView: View {
             }
             .navigationTitle("Moonshot")
             .navigationDestination(for: Mission.self) { mission in
-                Text(mission.displayName)
+                MissionView(mission: mission, astronauts: astronauts)
             }
             .background(.darkBackground)
             .preferredColorScheme(.dark)
