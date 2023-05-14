@@ -13,5 +13,8 @@ struct Activity: Codable, Identifiable, Hashable {
     let description: String
     var count: Int = 0
     
-    static var example = Activity(name: "Test Activity", description: "Some description here")
+    static var example = Activity(
+        name: "Test Activity",
+        description: "This is an examle description for Test Activity"
+    )
 }

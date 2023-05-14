@@ -32,7 +32,9 @@ struct ContentView: View {
                 }
             }
             .navigationDestination(for: Activity.self) { activity in
-                ActivityDetailView(activity: activity)
+                ActivityDetailView(activity: activity) { updatedActivity in
+                    trackActivity(updatedActivity)
+                }
             }
             .navigationTitle("Habit Tracker")
             .toolbar {
@@ -46,6 +48,10 @@ struct ContentView: View {
                 AddActivityView(activities: activities)
             }
         }
+    }
+    
+    func trackActivity(_ activity: Activity) {
+        
     }
 }
 
