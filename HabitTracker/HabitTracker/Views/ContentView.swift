@@ -51,7 +51,11 @@ struct ContentView: View {
     }
     
     func trackActivity(_ activity: Activity) {
-        
+        if let activityIndex = activities.list.firstIndex(where: { $0.id == activity.id }) {
+            activities.list[activityIndex] = activity
+        } else {
+            print("Not found")
+        }
     }
 }
 
