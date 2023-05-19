@@ -61,7 +61,7 @@ class Order: ObservableObject, Codable {
     @Published var zip = ""
     
     var hasValidAddress: Bool {
-        if name.isEmpty || streetAddress.isEmpty || city.isEmpty || zip.isEmpty {
+        if name.isBlank() || streetAddress.isBlank() || city.isBlank() || zip.isBlank() {
             return false
         }
         
@@ -81,5 +81,19 @@ class Order: ObservableObject, Codable {
         }
         
         return cost
+    }
+}
+
+extension String {
+    func isBlank() -> Bool {
+        if (self.isEmpty) {
+            return true
+        }
+        
+        if (self.trimmingCharacters(in: .whitespaces).isEmpty) {
+            return true
+        }
+        
+        return false
     }
 }
