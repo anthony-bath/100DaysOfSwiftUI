@@ -35,8 +35,8 @@ struct BookDetailView: View {
                 .font(.title)
                 .foregroundColor(.secondary)
             
-            if let review = book.review && !review.isEmpty && !review.trimmingCharacters(in: .whitespaces).isEmpty {
-                Text(review)
+            if let review = book.review {
+                Text(review.isEmpty ? "No Review" : review)
                     .padding()
             } else {
                 Text("No Review")
