@@ -35,7 +35,15 @@ struct BookDetailView: View {
                 .font(.title)
                 .foregroundColor(.secondary)
             
-            Text(book.review ?? "No review")
+            if let review = book.review && !review.isEmpty && !review.trimmingCharacters(in: .whitespaces).isEmpty {
+                Text(review)
+                    .padding()
+            } else {
+                Text("No Review")
+                    .padding()
+            }
+            
+            Text("Book Added On: \(book.dateAdded!.formatted(.dateTime.day().month().year()))")
                 .padding()
             
             RatingView(rating: .constant(Int(book.rating)))
