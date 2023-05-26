@@ -54,6 +54,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		921D94BD2A211575008FB752 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				92EA7ADA2A20077A001DAF45 /* Candy+CoreDataClass.swift */,
+				92EA7ADB2A20077A001DAF45 /* Candy+CoreDataProperties.swift */,
+				92EA7ADC2A20077A001DAF45 /* Country+CoreDataClass.swift */,
+				92EA7ADD2A20077A001DAF45 /* Country+CoreDataProperties.swift */,
+				92EA7AD42A1FC61C001DAF45 /* Singer+CoreDataClass.swift */,
+				92EA7AD52A1FC61C001DAF45 /* Singer+CoreDataProperties.swift */,
+				92EA7AD02A1E70F0001DAF45 /* Movie+CoreDataClass.swift */,
+				92EA7AD12A1E70F0001DAF45 /* Movie+CoreDataProperties.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		92EA7AB12A1D266A001DAF45 = {
 			isa = PBXGroup;
 			children = (
@@ -73,15 +88,8 @@
 		92EA7ABC2A1D266A001DAF45 /* CoreDataProject */ = {
 			isa = PBXGroup;
 			children = (
-				92EA7ADA2A20077A001DAF45 /* Candy+CoreDataClass.swift */,
-				92EA7ADB2A20077A001DAF45 /* Candy+CoreDataProperties.swift */,
-				92EA7ADC2A20077A001DAF45 /* Country+CoreDataClass.swift */,
-				92EA7ADD2A20077A001DAF45 /* Country+CoreDataProperties.swift */,
+				921D94BD2A211575008FB752 /* Model */,
 				92EA7AD82A1FC70E001DAF45 /* FilteredList.swift */,
-				92EA7AD42A1FC61C001DAF45 /* Singer+CoreDataClass.swift */,
-				92EA7AD52A1FC61C001DAF45 /* Singer+CoreDataProperties.swift */,
-				92EA7AD02A1E70F0001DAF45 /* Movie+CoreDataClass.swift */,
-				92EA7AD12A1E70F0001DAF45 /* Movie+CoreDataProperties.swift */,
 				92EA7ABD2A1D266A001DAF45 /* CoreDataProjectApp.swift */,
 				92EA7ABF2A1D266A001DAF45 /* ContentView.swift */,
 				92EA7ACB2A1D26E9001DAF45 /* CoreDataProject.xcdatamodeld */,
