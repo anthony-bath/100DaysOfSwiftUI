@@ -24,11 +24,17 @@ struct FilteredList<T: NSManagedObject, Content: View>: View {
         }
     }
     
-    init(filterKey: String, filterValue: String, predicate: Predicate, content: @escaping (T) -> Content) {
+    init(
+        filterKey: String,
+        filterValue: String,
+        predicate: Predicate,
+        sortDescriptors: [SortDescriptor<T>],
+        content: @escaping (T) -> Content
+    ) {
         let predicateString = "\(predicate.rawValue.uppercased())[C]"
         
         _fetchRequest = FetchRequest<T>(
-            sortDescriptors: [],
+            sortDescriptors: sortDescriptors,
             predicate: NSPredicate(format: "\(filterKey) \(predicateString) '\(filterValue)'")
         )
         
