@@ -12,6 +12,7 @@
 		921D94CF2A237191008FB752 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 921D94CE2A237191008FB752 /* Assets.xcassets */; };
 		921D94D22A237191008FB752 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 921D94D12A237191008FB752 /* Preview Assets.xcassets */; };
 		921D94DA2A23725A008FB752 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921D94D92A23725A008FB752 /* User.swift */; };
+		921D94DC2A261E2E008FB752 /* UserDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921D94DB2A261E2E008FB752 /* UserDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		921D94CE2A237191008FB752 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		921D94D12A237191008FB752 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		921D94D92A23725A008FB752 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		921D94DB2A261E2E008FB752 /* UserDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 				921D94D82A23723F008FB752 /* Model */,
 				921D94CA2A237190008FB752 /* UsersAndFriendsApp.swift */,
 				921D94CC2A237190008FB752 /* ContentView.swift */,
+				921D94DB2A261E2E008FB752 /* UserDetailView.swift */,
 				921D94CE2A237191008FB752 /* Assets.xcassets */,
 				921D94D02A237191008FB752 /* Preview Content */,
 			);
@@ -148,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				921D94DC2A261E2E008FB752 /* UserDetailView.swift in Sources */,
 				921D94CD2A237190008FB752 /* ContentView.swift in Sources */,
 				921D94CB2A237190008FB752 /* UsersAndFriendsApp.swift in Sources */,
 				921D94DA2A23725A008FB752 /* User.swift in Sources */,
