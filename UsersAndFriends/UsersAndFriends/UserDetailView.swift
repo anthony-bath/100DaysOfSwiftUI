@@ -26,6 +26,24 @@ struct UserDetailView: View {
             }
             
             Section {
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(user.tags, id: \.self) { tag in
+                            Text(tag)
+                                .frame(minWidth: 50)
+                                .padding(10)
+                                .background(Capsule().fill(Color.gray.opacity(0.5)))
+                                .foregroundColor(.primary)
+                                .bold()
+                        }
+                    }
+                }
+                
+            } header: {
+                Text("Tags")
+            }
+            
+            Section {
                 ForEach(user.friends, id: \.id) { friend in
                     NavigationLink(value: getUser(id: friend.id)) {
                         Text(friend.name)
