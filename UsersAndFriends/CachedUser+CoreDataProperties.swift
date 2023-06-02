@@ -27,6 +27,14 @@ extension CachedUser {
     @NSManaged public var registered: Date?
     @NSManaged public var tags: String?
     @NSManaged public var friends: NSSet?
+    
+    public var wName: String {
+        name ?? "Unknown Name"
+    }
+    
+    public var wEmail: String {
+        email ?? "N/A"
+    }
 
 }
 
