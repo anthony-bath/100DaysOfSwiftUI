@@ -34,11 +34,12 @@ struct ContentView: View {
             .padding(.bottom, 10)
             .navigationTitle("Users")
             .navigationDestination(for: CachedUser.self) { user in
-                //                UserDetailView(user: user, users: users)
+                UserDetailView(user: user, users: cachedUsers)
             }
         }
         .task {
             if cachedUsers.isEmpty {
+                print("Downloading Users")
                 if let users = await fetchData() {
                     await MainActor.run {
                         for user in users {
@@ -54,24 +55,38 @@ struct ContentView: View {
                             cachedUser.age = Int16(user.age)
                             cachedUser.company = user.company
                             cachedUser.isActive = user.isActive
-                            
+
                             for friend in user.friends {
                                 let newFriend = CachedFriend(context: moc)
-                                
+
                                 newFriend.id = friend.id
                                 newFriend.name = friend.name
-                                newFriend.user = cachedUser
+                                cachedUser.addToFriends(newFriend)
+                            }
+
+                            do {
+                                try moc.save()
+                            } catch {
+                                print(error.localizedDescription)
                             }
                         }
-                        
-                        try? moc.save()
                     }
                 }
+            }
+            else {
+                print("Loading Users From Core Data")
+                // Uncomment to delete all Users
+//                for user in cachedUsers {
+//                    moc.delete(user)
+//                }
+//
+//                try? moc.save()
             }
         }
     }
     
     func fetchData() async -> [User]? {
+        print("Downloading")
         do {
             let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json")
             let (data, response) = try await URLSession.shared.data(from: url!)
@@ -94,11 +109,5 @@ struct ContentView: View {
         }
         
         return nil
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }

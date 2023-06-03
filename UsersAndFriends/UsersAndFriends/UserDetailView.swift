@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct UserDetailView: View {
-    var user: User
-    var users: [User]
+    var user: CachedUser
+    var users: FetchedResults<CachedUser>
     
     var body: some View {
         List {
             Section {
-                Text(user.about)
+                Text(user.wAbout)
             } header: {
                 Text("About")
             }
             
             Section {
-                Text(user.email)
+                Text(user.wEmail)
             } header: {
                 Text("E-Mail")
             }
@@ -28,7 +28,7 @@ struct UserDetailView: View {
             Section {
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(user.tags, id: \.self) { tag in
+                        ForEach(user.wTags, id: \.self) { tag in
                             Text(tag)
                                 .frame(minWidth: 50)
                                 .padding(10)
@@ -44,29 +44,19 @@ struct UserDetailView: View {
             }
             
             Section {
-                ForEach(user.friends, id: \.id) { friend in
-                    NavigationLink(value: getUser(id: friend.id)) {
-                        Text(friend.name)
+                ForEach(user.friendsArray, id: \.wId) { friend in
+                    NavigationLink(value: getUser(id: friend.wId)) {
+                        Text(friend.wName)
                     }
                 }
             } header: {
                 Text("Friends")
             }
         }
-        .navigationBarTitle(user.name)
+        .navigationBarTitle(user.wName)
     }
     
-    func getUser(id: UUID) -> User {
-        users.first { $0.id == id }!
-    }
-}
-
-struct UserDetailView_Previews: PreviewProvider {
-    static let users = User.sampleUsers
-    
-    static var previews: some View {
-        NavigationStack {
-            UserDetailView(user: users[0], users: users)
-        }
+    func getUser(id: UUID) -> CachedUser {
+        users.first { $0.wId == id }!
     }
 }

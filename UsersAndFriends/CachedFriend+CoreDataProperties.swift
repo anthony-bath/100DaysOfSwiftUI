@@ -19,6 +19,14 @@ extension CachedFriend {
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
     @NSManaged public var user: CachedUser?
+    
+    public var wId: UUID {
+        id ?? UUID()
+    }
+    
+    public var wName: String {
+        name ?? "Unknown Name"
+    }
 
 }
 

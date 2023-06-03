@@ -51,7 +51,6 @@
 		921D94BE2A237190008FB752 = {
 			isa = PBXGroup;
 			children = (
-				921D94E82A28B872008FB752 /* DataController.swift */,
 				921D94C92A237190008FB752 /* UsersAndFriends */,
 				921D94C82A237190008FB752 /* Products */,
 			);
@@ -90,6 +89,7 @@
 		921D94D82A23723F008FB752 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				921D94E82A28B872008FB752 /* DataController.swift */,
 				921D94E02A28B803008FB752 /* CachedUser+CoreDataClass.swift */,
 				921D94E12A28B803008FB752 /* CachedUser+CoreDataProperties.swift */,
 				921D94E22A28B803008FB752 /* CachedFriend+CoreDataClass.swift */,
