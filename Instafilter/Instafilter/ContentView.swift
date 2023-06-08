@@ -12,11 +12,15 @@ import PhotosUI
 
 struct ContentView: View {
     @State private var image: Image?
+    @State private var selectedUIImage: UIImage?
+    @State private var processedUIImage: UIImage?
     @State private var filterIntensity = 0.5
     @State private var selectedImage: PhotosPickerItem?
     @State private var showingPhotosPicker = false
-    @State private var currentFilter = CIFilter.sepiaTone()
+    @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
     let context = CIContext()
+    
+    @State private var showingFilterSheet = false
     
     var body: some View {
         NavigationStack {
@@ -43,16 +47,24 @@ struct ContentView: View {
                 .onChange(of: filterIntensity) { _ in applyProcessing() }
                 
                 HStack {
-                    Button("Change Filter") { }
-
+                    Button("Change Filter") { showingFilterSheet = true }
                     Spacer()
-
                     Button("Save", action: save)
                 }
             }
             .padding([.horizontal, .bottom])
             .navigationTitle("Instafilter")
             .photosPicker(isPresented: $showingPhotosPicker, selection: $selectedImage)
+            .confirmationDialog("Select Filter", isPresented: $showingFilterSheet) {
+                Button("Crystallize") { setFilter(CIFilter.crystallize()) }
+                Button("Edges") { setFilter(CIFilter.edges()) }
+                Button("Gaussian Blur") { setFilter(CIFilter.gaussianBlur()) }
+                Button("Pixellate") { setFilter(CIFilter.pixellate()) }
+                Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
+                Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
+                Button("Vignette") { setFilter(CIFilter.vignette()) }
+                Button("Cancel", role: .cancel) { }
+            }
             .onChange(of: selectedImage) { selection in
                 guard let selection = selection else { return }
                 
@@ -60,9 +72,8 @@ struct ContentView: View {
                     do {
                         if let data = try await selection.loadTransferable(type: Data.self) {
                             if let uiImage = UIImage(data: data) {
-                                let beginImage = CIImage(image: uiImage)
-                                currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-                                applyProcessing()
+                                selectedUIImage = uiImage
+                                load()
                             }
                         }
                     } catch {
@@ -73,19 +84,52 @@ struct ContentView: View {
         }
     }
     
+    func load() {
+        guard let selectedUIImage = selectedUIImage else { return }
+        
+        let beginImage = CIImage(image: selectedUIImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        applyProcessing()
+    }
+    
     func applyProcessing() {
-        currentFilter.intensity = Float(filterIntensity)
+        let inputKeys = currentFilter.inputKeys
+        
+        if inputKeys.contains(kCIInputIntensityKey) {
+            currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey)
+        }
+        
+        if inputKeys.contains(kCIInputRadiusKey) {
+            currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey)
+        }
+        
+        if inputKeys.contains(kCIInputScaleKey) {
+            currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
+        }
         
         guard let outputImage = currentFilter.outputImage else { return }
         
         if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
             let uiImage = UIImage(cgImage: cgImage)
+            
+            self.processedUIImage = uiImage
             self.image = Image(uiImage: uiImage)
         }
     }
     
+    func setFilter(_ filter: CIFilter) {
+        currentFilter = filter;
+        load();
+    }
+    
     func save() {
+        guard let processedUIImage = processedUIImage else { return }
         
+        let saver = ImageSaver()
+        
+        saver.successHandler = { print("Success") }
+        saver.errorHandler = { print($0.localizedDescription)}
+        saver.writeToPhotoAlbum(image: processedUIImage)
     }
 }
 
