@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var selectedUIImage: UIImage?
     @State private var processedUIImage: UIImage?
     @State private var filterIntensity = 0.5
+    @State private var filterRadius = 0.5
+    @State private var filterScale = 0.5
     @State private var selectedImage: PhotosPickerItem?
     @State private var showingPhotosPicker = false
     @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
@@ -39,30 +41,57 @@ struct ContentView: View {
                 }
                 .onTapGesture { showingPhotosPicker = true }
                 
-                HStack {
-                    Text("Intensity")
-                    Slider(value: $filterIntensity)
+                if currentFilter.inputKeys.contains(kCIInputIntensityKey) {
+                    HStack {
+                        Text("Intensity")
+                        Slider(value: $filterIntensity)
+                    }
+                    .padding(.vertical)
+                    .onChange(of: filterIntensity) { _ in applyProcessing() }
                 }
-                .padding(.vertical)
-                .onChange(of: filterIntensity) { _ in applyProcessing() }
+                
+                if currentFilter.inputKeys.contains(kCIInputRadiusKey) {
+                    HStack {
+                        Text("Radius")
+                        Slider(value: $filterRadius)
+                    }
+                    .padding(.vertical)
+                    .onChange(of: filterRadius) { _ in applyProcessing() }
+                }
+                
+                if currentFilter.inputKeys.contains(kCIInputScaleKey) {
+                    HStack {
+                        Text("Scale")
+                        Slider(value: $filterScale)
+                    }
+                    .padding(.vertical)
+                    .onChange(of: filterScale) { _ in applyProcessing() }
+                }
                 
                 HStack {
                     Button("Change Filter") { showingFilterSheet = true }
                     Spacer()
                     Button("Save", action: save)
+                        .disabled(image == nil)
                 }
             }
             .padding([.horizontal, .bottom])
             .navigationTitle("Instafilter")
             .photosPicker(isPresented: $showingPhotosPicker, selection: $selectedImage)
             .confirmationDialog("Select Filter", isPresented: $showingFilterSheet) {
-                Button("Crystallize") { setFilter(CIFilter.crystallize()) }
-                Button("Edges") { setFilter(CIFilter.edges()) }
-                Button("Gaussian Blur") { setFilter(CIFilter.gaussianBlur()) }
-                Button("Pixellate") { setFilter(CIFilter.pixellate()) }
-                Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
-                Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
-                Button("Vignette") { setFilter(CIFilter.vignette()) }
+                Group {
+                    Button("Crystallize") { setFilter(CIFilter.crystallize()) }
+                    Button("Edges") { setFilter(CIFilter.edges()) }
+                    Button("Gaussian Blur") { setFilter(CIFilter.gaussianBlur()) }
+                    Button("Pixellate") { setFilter(CIFilter.pixellate()) }
+                    Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
+                    Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
+                    Button("Vignette") { setFilter(CIFilter.vignette()) }
+                    Button("Thermal") { setFilter(CIFilter.thermal()) }
+                    Button("X-Ray") { setFilter(CIFilter.xRay()) }
+                    Button("Bump Distortion") { setFilter(CIFilter.bumpDistortion()) }
+                }
+                
                 Button("Cancel", role: .cancel) { }
             }
             .onChange(of: selectedImage) { selection in
@@ -100,11 +129,23 @@ struct ContentView: View {
         }
         
         if inputKeys.contains(kCIInputRadiusKey) {
-            currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey)
+            currentFilter.setValue(filterRadius * 1000, forKey: kCIInputRadiusKey)
         }
         
         if inputKeys.contains(kCIInputScaleKey) {
-            currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
+            currentFilter.setValue(filterScale * 100, forKey: kCIInputScaleKey)
+        }
+        
+        if inputKeys.contains(kCIInputCenterKey) {
+            if let selectedUIImage = selectedUIImage {
+                currentFilter.setValue(
+                    CIVector(
+                        x: selectedUIImage.size.width / 2,
+                        y: selectedUIImage.size.height / 2
+                    ),
+                    forKey: kCIInputCenterKey
+                )
+            }
         }
         
         guard let outputImage = currentFilter.outputImage else { return }
