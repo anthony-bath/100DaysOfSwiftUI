@@ -7,76 +7,79 @@
 
 import SwiftUI
 import MapKit
-import LocalAuthentication
-
-struct Location: Identifiable {
-    let id = UUID()
-    let name: String
-    let coordinate: CLLocationCoordinate2D
-}
 
 struct ContentView: View {
-    @State private var isUnlocked = false
     @State private var mapRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
-            latitude: 51.5,
-            longitude: -0.12
+            latitude: 50,
+            longitude: 0
         ),
-        span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+        span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25)
     )
     
-    let locations = [
-        Location(
-            name: "Buckingham Palace",
-            coordinate: CLLocationCoordinate2D(
-                latitude: 51.501,
-                longitude: -0.141
-            )
-        ),
-        Location(
-            name: "Tower of London",
-            coordinate: CLLocationCoordinate2D(
-                latitude: 51.508,
-                longitude: -0.076
-            )
-        )
-    ]
+    @State private var locations = [Location]()
+    @State private var selected: Location?
     
     var body: some View {
-        VStack {
-            if isUnlocked {
-                Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
-                    MapAnnotation(coordinate: location.coordinate) {
-                        Circle()
-                            .stroke(.red, lineWidth: 3)
+        ZStack {
+            Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
+                MapAnnotation(coordinate: location.coordinate) {
+                    VStack {
+                        Image(systemName: "star.circle")
+                            .resizable()
+                            .foregroundColor(.red)
                             .frame(width: 44, height: 44)
-                            .onTapGesture { print("Tapped on \(location.name)")}
+                            .background(.white)
+                            .clipShape(Circle())
+                        
+                        Text(location.name)
+                            .fixedSize()
                     }
+                    .onTapGesture { selected = location }
                 }
-            } else {
-                Text("Locked")
+            }
+            .ignoresSafeArea()
+            
+            Circle()
+                .fill(.blue)
+                .opacity(0.3)
+                .frame(width: 32, height: 32)
+            
+            VStack {
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        let newLocation = Location(
+                            id: UUID(),
+                            name: "New location",
+                            description: "",
+                            latitude: mapRegion.center.latitude,
+                            longitude: mapRegion.center.longitude
+                        )
+                        
+                        locations.append(newLocation)
+                    } label: {
+                        Image(systemName: "plus")
+                        
+                    }
+                    .padding()
+                    .background(.black.opacity(0.75))
+                    .foregroundColor(.white)
+                    .font(.title)
+                    .clipShape(Circle())
+                    .padding(.trailing)
+                }
             }
         }
-        .onAppear(perform: authenticate)
-
-    }
-    
-    func authenticate() {
-        let context = LAContext()
-        var error: NSError?
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "We need to unlock your BucketList data"
-            
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                if success {
-                    isUnlocked = true
-                } else {
-                    // a problem
+        .sheet(item: $selected) { location in
+            EditView(location: location) { updatedLocation in
+                if let index = locations.firstIndex(of: location) {
+                    locations[index] = updatedLocation
                 }
             }
-        } else {
-            // No Biometrics Available
         }
     }
 }
