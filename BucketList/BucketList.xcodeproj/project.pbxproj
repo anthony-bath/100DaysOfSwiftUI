@@ -13,6 +13,7 @@
 		921D951C2A33FC90008FB752 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 921D951B2A33FC90008FB752 /* Preview Assets.xcassets */; };
 		921D95232A35171D008FB752 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921D95222A35171D008FB752 /* Location.swift */; };
 		921D95252A35E687008FB752 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921D95242A35E687008FB752 /* EditView.swift */; };
+		921D95272A377CC8008FB752 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921D95262A377CC8008FB752 /* Result.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		921D951B2A33FC90008FB752 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		921D95222A35171D008FB752 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		921D95242A35E687008FB752 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		921D95262A377CC8008FB752 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				921D95162A33FC8F008FB752 /* ContentView.swift */,
 				921D95242A35E687008FB752 /* EditView.swift */,
 				921D95222A35171D008FB752 /* Location.swift */,
+				921D95262A377CC8008FB752 /* Result.swift */,
 				921D95182A33FC90008FB752 /* Assets.xcassets */,
 				921D951A2A33FC90008FB752 /* Preview Content */,
 			);
@@ -144,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				921D95172A33FC8F008FB752 /* ContentView.swift in Sources */,
+				921D95272A377CC8008FB752 /* Result.swift in Sources */,
 				921D95232A35171D008FB752 /* Location.swift in Sources */,
 				921D95252A35E687008FB752 /* EditView.swift in Sources */,
 				921D95152A33FC8F008FB752 /* BucketListApp.swift in Sources */,
