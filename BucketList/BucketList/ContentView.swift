@@ -9,77 +9,62 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
-    @State private var mapRegion = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(
-            latitude: 50,
-            longitude: 0
-        ),
-        span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25)
-    )
-    
-    @State private var locations = [Location]()
-    @State private var selected: Location?
+    @StateObject private var viewModel = ViewModel()
     
     var body: some View {
-        ZStack {
-            Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
-                MapAnnotation(coordinate: location.coordinate) {
-                    VStack {
-                        Image(systemName: "star.circle")
-                            .resizable()
-                            .foregroundColor(.red)
-                            .frame(width: 44, height: 44)
-                            .background(.white)
-                            .clipShape(Circle())
-                        
-                        Text(location.name)
-                            .fixedSize()
+        if viewModel.isUnlocked {
+            ZStack {
+                Map(coordinateRegion: $viewModel.mapRegion, annotationItems: viewModel.locations) { location in
+                    MapAnnotation(coordinate: location.coordinate) {
+                        VStack {
+                            Image(systemName: "star.circle")
+                                .resizable()
+                                .foregroundColor(.red)
+                                .frame(width: 44, height: 44)
+                                .background(.white)
+                                .clipShape(Circle())
+                            
+                            Text(location.name)
+                                .fixedSize()
+                        }
+                        .onTapGesture { viewModel.selected = location }
                     }
-                    .onTapGesture { selected = location }
                 }
-            }
-            .ignoresSafeArea()
-            
-            Circle()
-                .fill(.blue)
-                .opacity(0.3)
-                .frame(width: 32, height: 32)
-            
-            VStack {
-                Spacer()
+                .ignoresSafeArea()
                 
-                HStack {
+                Circle()
+                    .fill(.blue)
+                    .opacity(0.3)
+                    .frame(width: 32, height: 32)
+                
+                VStack {
                     Spacer()
                     
-                    Button {
-                        let newLocation = Location(
-                            id: UUID(),
-                            name: "New location",
-                            description: "",
-                            latitude: mapRegion.center.latitude,
-                            longitude: mapRegion.center.longitude
-                        )
+                    HStack {
+                        Spacer()
                         
-                        locations.append(newLocation)
-                    } label: {
-                        Image(systemName: "plus")
-                        
+                        Button {
+                            viewModel.addLocation()
+                        } label: {
+                            Image(systemName: "plus")
+                            
+                        }
+                        .padding()
+                        .background(.black.opacity(0.75))
+                        .foregroundColor(.white)
+                        .font(.title)
+                        .clipShape(Circle())
+                        .padding(.trailing)
                     }
-                    .padding()
-                    .background(.black.opacity(0.75))
-                    .foregroundColor(.white)
-                    .font(.title)
-                    .clipShape(Circle())
-                    .padding(.trailing)
                 }
             }
-        }
-        .sheet(item: $selected) { location in
-            EditView(location: location) { updatedLocation in
-                if let index = locations.firstIndex(of: location) {
-                    locations[index] = updatedLocation
+            .sheet(item: $viewModel.selected) { location in
+                EditView(location: location) { updatedLocation in
+                    viewModel.updateLocation(updatedLocation)
                 }
             }
+        } else {
+            Button("Unlock", action: viewModel.authenticate)
         }
     }
 }
