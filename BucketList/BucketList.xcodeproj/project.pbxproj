@@ -16,6 +16,7 @@
 		921D95272A377CC8008FB752 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921D95262A377CC8008FB752 /* Result.swift */; };
 		926BC5702A38CE320078DF34 /* ContentView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926BC56F2A38CE320078DF34 /* ContentView-ViewModel.swift */; };
 		926BC5722A38D21B0078DF34 /* FileManager-DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926BC5712A38D21B0078DF34 /* FileManager-DocumentsDirectory.swift */; };
+		926BC5742A3A26C70078DF34 /* EditView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926BC5732A3A26C70078DF34 /* EditView-ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		921D95262A377CC8008FB752 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		926BC56F2A38CE320078DF34 /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
 		926BC5712A38D21B0078DF34 /* FileManager-DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager-DocumentsDirectory.swift"; sourceTree = "<group>"; };
+		926BC5732A3A26C70078DF34 /* EditView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditView-ViewModel.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				926BC56F2A38CE320078DF34 /* ContentView-ViewModel.swift */,
+				926BC5732A3A26C70078DF34 /* EditView-ViewModel.swift */,
 				921D95142A33FC8F008FB752 /* BucketListApp.swift */,
 				921D95162A33FC8F008FB752 /* ContentView.swift */,
 				926BC5712A38D21B0078DF34 /* FileManager-DocumentsDirectory.swift */,
@@ -157,6 +160,7 @@
 				926BC5702A38CE320078DF34 /* ContentView-ViewModel.swift in Sources */,
 				921D95272A377CC8008FB752 /* Result.swift in Sources */,
 				921D95232A35171D008FB752 /* Location.swift in Sources */,
+				926BC5742A3A26C70078DF34 /* EditView-ViewModel.swift in Sources */,
 				921D95252A35E687008FB752 /* EditView.swift in Sources */,
 				921D95152A33FC8F008FB752 /* BucketListApp.swift in Sources */,
 			);

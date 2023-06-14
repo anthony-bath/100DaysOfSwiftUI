@@ -22,6 +22,7 @@ extension ContentView {
         )
         
         @Published private(set) var locations: [Location]
+        @Published var showingAuthError = false
         @Published var selected: Location?
         @Published var isUnlocked = false
         
@@ -40,13 +41,16 @@ extension ContentView {
             let context = LAContext()
             var error: NSError?
             
+            self.showingAuthError = false
+            
             if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
                 let reason = "We need to unlock your BucketList data"
+                
                 context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authError in
                     if success {
                         Task { @MainActor in self.isUnlocked = true }
                     } else {
-                        // error
+                        Task { @MainActor in self.showingAuthError = true }
                     }
                 }
             } else {

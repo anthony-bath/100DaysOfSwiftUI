@@ -8,33 +8,25 @@
 import SwiftUI
 
 struct EditView: View {
-    enum LoadingState {
-        case loading, loaded, failed
-    }
     
     @Environment(\.dismiss) var dismiss
-    var location: Location
+    @StateObject var viewModel: ViewModel
     var onSave: (Location) -> Void
-    
-    @State private var name: String
-    @State private var description: String
-    @State private var loadingState = LoadingState.loading
-    @State private var pages = [Page]()
 
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("Location Name", text: $name)
-                    TextField("Description", text: $description)
+                    TextField("Location Name", text: $viewModel.name)
+                    TextField("Description", text: $viewModel.description)
                 }
                 
                 Section("Nearby...") {
-                    switch loadingState {
+                    switch viewModel.loadingState {
                     case .loading:
                         Text("Loading...")
                     case .loaded:
-                        ForEach(pages, id: \.pageid) { page in
+                        ForEach(viewModel.pages, id: \.pageid) { page in
                             Text(page.title)
                                 .font(.headline)
                             + Text(": ")
@@ -49,12 +41,7 @@ struct EditView: View {
             .navigationTitle("Location Details")
             .toolbar {
                 Button("Save") {
-                    var updatedLocation = location
-                    
-                    updatedLocation.id = UUID()
-                    updatedLocation.name = name
-                    updatedLocation.description = description
-                    
+                    let updatedLocation = viewModel.getUpdatedLocation()
                     onSave(updatedLocation)
                     dismiss()
                 }
@@ -66,14 +53,12 @@ struct EditView: View {
     }
     
     init(location: Location, onSave: @escaping (Location) -> Void) {
-        self.location = location
         self.onSave = onSave
-        _name = State(initialValue: location.name)
-        _description = State(initialValue: location.description)
+        _viewModel = StateObject(wrappedValue: ViewModel(location: location))
     }
     
     func fetchNearbyLocations() async {
-        let urlString = "https://en.wikipedia.org/w/api.php?ggscoord=\(location.coordinate.latitude)%7C\(location.coordinate.longitude)&action=query&prop=coordinates%7Cpageimages%7Cpageterms&colimit=50&piprop=thumbnail&pithumbsize=500&pilimit=50&wbptterms=description&generator=geosearch&ggsradius=10000&ggslimit=50&format=json"
+        let urlString = "https://en.wikipedia.org/w/api.php?ggscoord=\(viewModel.location.coordinate.latitude)%7C\(viewModel.location.coordinate.longitude)&action=query&prop=coordinates%7Cpageimages%7Cpageterms&colimit=50&piprop=thumbnail&pithumbsize=500&pilimit=50&wbptterms=description&generator=geosearch&ggsradius=10000&ggslimit=50&format=json"
         
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
@@ -83,11 +68,11 @@ struct EditView: View {
         do {
             let (data,_) = try await URLSession.shared.data(from: url)
             let items = try JSONDecoder().decode(Result.self, from: data)
-            pages = items.query.pages.values.sorted()
-            loadingState = .loaded
+            viewModel.pages = items.query.pages.values.sorted()
+            viewModel.loadingState = .loaded
         } catch {
             print(error)
-            loadingState = .failed
+            viewModel.loadingState = .failed
         }
     }
 }
