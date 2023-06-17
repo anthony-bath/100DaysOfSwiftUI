@@ -15,19 +15,23 @@ struct MissionView: View {
         GeometryReader { geo in
             ScrollView {
                 VStack {
-                    Image(mission.image)
+                    Image(decorative: mission.image)
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: geo.size.width*0.6)
                         .padding([.top, .bottom])
                     
-                    Text("Launch Date")
-                        .font(.title3.bold())
-                        .padding(.bottom,2)
-                    
-                    Text(mission.formattedLaunchDate)
-                        .font(.title2.bold())
-                        .foregroundColor(.white.opacity(0.8))
+                    VStack {
+                        Text("Launch Date")
+                            .font(.title3.bold())
+                            .padding(.bottom,2)
+                        
+                        Text(mission.formattedLaunchDate)
+                            .font(.title2.bold())
+                            .foregroundColor(.white.opacity(0.8))
+                    }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Launch Date: \(mission.formattedLaunchDate)")
                     
                     VStack(alignment: .leading) {
                         Rectangle()
@@ -38,6 +42,7 @@ struct MissionView: View {
                         Text("Mission Highlights")
                             .font(.title.bold())
                             .padding(.bottom, 5)
+                            .accessibilityAddTraits(.isHeader)
                         
                         Text(mission.description)
                         
@@ -49,6 +54,7 @@ struct MissionView: View {
                         Text("Crew")
                             .font(.title.bold())
                             .padding(.bottom, 5)
+                            .accessibilityAddTraits(.isHeader)
                     }
                     .padding(.horizontal)
                     
