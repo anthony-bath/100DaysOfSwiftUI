@@ -8,19 +8,7 @@
 import SwiftUI
 import PhotosUI
 
-struct PictureEntry: Identifiable, Codable {
-    var id: UUID
-    var name: String
-    var imageData: Data
-    
-    var displayedImage: Image {
-        if let uiImage = UIImage(data: imageData) {
-            return Image(uiImage: uiImage)
-        } else {
-            return Image(systemName: "error")
-        }
-    }
-}
+
 
 struct ContentView: View {
     @State private var showingPhotosPicker = false
@@ -37,7 +25,7 @@ struct ContentView: View {
             let data = try Data(contentsOf: savePath)
             let loaded = try JSONDecoder().decode([PictureEntry].self, from: data)
 
-            _entries = State(initialValue: loaded)
+            _entries = State(initialValue: loaded.sorted())
         } catch {
             print("Error Loading: \(error.localizedDescription)")
         }
@@ -46,14 +34,31 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List(entries) { entry in
-                HStack {
-                    entry.displayedImage
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .frame(maxWidth: 100, maxHeight: 100)
-                    
-                    Text(entry.name)
+                NavigationLink(value: entry) {
+                    HStack {
+                        entry.displayedImage
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Circle())
+                            .frame(maxWidth: 50, maxHeight: 50)
+                        
+                        VStack(alignment: .leading) {
+                            Text(entry.name)
+                                .font(.headline)
+                            
+                            Text("Added: \(entry.dateAdded.formatted())")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                .swipeActions {
+                    Button(role: .destructive) {
+                        entries.removeAll { $0.id == entry.id }
+                        save()
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
                 }
             }
             .navigationTitle("PictureList")
@@ -64,7 +69,9 @@ struct ContentView: View {
                     Label("Add", systemImage: "photo")
                 }
             }
-            .presentationDetents([.fraction(0.5)])
+            .navigationDestination(for: PictureEntry.self) { entry in
+                DisplayView(entry: entry)
+            }
             .photosPicker(isPresented: $showingPhotosPicker, selection: $selectedPhoto)
             .onChange(of: selectedPhoto) { selection in
                 guard let selection = selection else { return }
@@ -101,7 +108,7 @@ struct ContentView: View {
                         
                         Form {
                             TextField("Name", text: $newName)
-                            Button("Save", action: save)
+                            Button("Add", action: add)
                                 .disabled(newName.isEmpty)
                         }
                     }
@@ -117,7 +124,7 @@ struct ContentView: View {
         }
     }
     
-    func save() {
+    func add() {
         guard let savingEntry = newEntry else { return }
         
         let savedEntry = PictureEntry(
@@ -127,17 +134,20 @@ struct ContentView: View {
         )
         
         entries.append(savedEntry)
+        entries.sort()
         
+        newEntry = nil
+        newName = ""
+        save()
+    }
+    
+    func save() {
         do {
             let data = try JSONEncoder().encode(entries)
             try data.write(to: savePath, options: [.atomicWrite, .completeFileProtection])
-            print(savePath)
-            print("Saved")
         } catch {
             print("Unable to save data.")
         }
-        
-        newEntry = nil
     }
 }
 
