@@ -61,9 +61,9 @@
 				9221F5562A3F393B0006544A /* Extensions */,
 				9221F5482A3F36FA0006544A /* PictureListApp.swift */,
 				9221F54A2A3F36FA0006544A /* ContentView.swift */,
+				9221F55B2A407F6A0006544A /* DisplayView.swift */,
 				9221F54C2A3F36FA0006544A /* Assets.xcassets */,
 				9221F54E2A3F36FA0006544A /* Preview Content */,
-				9221F55B2A407F6A0006544A /* DisplayView.swift */,
 			);
 			path = PictureList;
 			sourceTree = "<group>";

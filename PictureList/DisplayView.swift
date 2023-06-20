@@ -11,7 +11,29 @@ struct DisplayView: View {
     let entry: PictureEntry
     
     var body: some View {
-        entry.displayedImage
+        List {
+            Section {
+                Text(entry.name)
+            } header: {
+                Text("Name")
+            }
+            
+            Section {
+                entry.displayedImage
+                    .resizable()
+                    .scaledToFit()
+            } header: {
+                Text("Picture")
+            }
+            
+            Section {
+                Text(entry.dateAdded.formatted())
+            } header: {
+                Text("Date Added")
+            }
+        }
+        .navigationTitle("Details")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

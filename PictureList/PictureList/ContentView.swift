@@ -38,9 +38,11 @@ struct ContentView: View {
                     HStack {
                         entry.displayedImage
                             .resizable()
-                            .scaledToFit()
+                            .scaledToFill()
                             .clipShape(Circle())
                             .frame(maxWidth: 50, maxHeight: 50)
+                            .overlay(Circle().stroke(.primary, lineWidth: 2))
+
                         
                         VStack(alignment: .leading) {
                             Text(entry.name)
