@@ -19,12 +19,13 @@ struct ContentView: View {
     @State private var newName = ""
     
     let savePath = FileManager.documentsDirectory.appendingPathComponent("SavedEntries")
+    let locationFetcher = LocationFetcher()
     
     init() {
         do {
             let data = try Data(contentsOf: savePath)
             let loaded = try JSONDecoder().decode([PictureEntry].self, from: data)
-
+            
             _entries = State(initialValue: loaded.sorted())
         } catch {
             print("Error Loading: \(error.localizedDescription)")
@@ -35,24 +36,8 @@ struct ContentView: View {
         NavigationStack {
             List(entries) { entry in
                 NavigationLink(value: entry) {
-                    HStack {
-                        entry.displayedImage
-                            .resizable()
-                            .scaledToFill()
-                            .clipShape(Circle())
-                            .frame(maxWidth: 50, maxHeight: 50)
-                            .overlay(Circle().stroke(.primary, lineWidth: 2))
-
-                        
-                        VStack(alignment: .leading) {
-                            Text(entry.name)
-                                .font(.headline)
-                            
-                            Text("Added: \(entry.dateAdded.formatted())")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
+                    EntryRowView(entry: entry)
+                        .padding([.bottom,.top],5)
                 }
                 .swipeActions {
                     Button(role: .destructive) {
@@ -71,68 +56,65 @@ struct ContentView: View {
                     Label("Add", systemImage: "photo")
                 }
             }
-            .navigationDestination(for: PictureEntry.self) { entry in
-                DisplayView(entry: entry)
-            }
+            .navigationDestination(for: PictureEntry.self) { entry in DisplayView(entry: entry) }
             .photosPicker(isPresented: $showingPhotosPicker, selection: $selectedPhoto)
-            .onChange(of: selectedPhoto) { selection in
-                guard let selection = selection else { return }
-                
-                Task { @MainActor in
-                    do {
-                        if let data = try await selection.loadTransferable(type: Data.self) {
-                            if let uiImage = UIImage(data: data) {
-                                showingPhotosPicker = false
-                                
-                                if let imageData = uiImage.jpegData(compressionQuality: 0.8) {
-                                    showingSaveSheet = true
-                                    
-                                    newEntry = PictureEntry(
-                                        id: UUID(),
-                                        name: "",
-                                        imageData: imageData
-                                    )
-                                }
-                            }
-                        }
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
+            .onChange(of: selectedPhoto, perform: onSelectPhoto)
+            .onAppear { self.locationFetcher.start() }
             .sheet(item: $newEntry) { entry in
-                NavigationStack {
-                    VStack {
-                        entry.displayedImage
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: 300, maxHeight: 300)
-                        
-                        Form {
-                            TextField("Name", text: $newName)
-                            Button("Add", action: add)
-                                .disabled(newName.isEmpty)
-                        }
-                    }
-                    .toolbar {
-                        Button("Cancel", role: .destructive) {
-                            newName = ""
-                            newEntry = nil
-                        }
-                    }
-                    .navigationTitle("Add New Entry")
-                }
+                AddView(
+                    entry: entry,
+                    onAdd: add,
+                    onCancel: { newEntry = nil }
+                )
             }
         }
     }
     
-    func add() {
+    func onSelectPhoto(_ selection: PhotosPickerItem?) {
+        guard let selection = selection else { return }
+        
+        Task { @MainActor in
+            do {
+                if let data = try await selection.loadTransferable(type: Data.self) {
+                    if let uiImage = UIImage(data: data) {
+                        showingPhotosPicker = false
+                        
+                        if let imageData = uiImage.jpegData(compressionQuality: 0.8) {
+                            showingSaveSheet = true
+                            
+                            var latitude: Double? = nil
+                            var longitude: Double? = nil
+                            
+                            if let location = self.locationFetcher.lastKnownLocation {
+                                latitude = location.latitude
+                                longitude = location.longitude
+                            }
+                            
+                            newEntry = PictureEntry(
+                                id: UUID(),
+                                name: "",
+                                imageData: imageData,
+                                latitude: latitude,
+                                longitude: longitude
+                            )
+                        }
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func add(name: String) {
         guard let savingEntry = newEntry else { return }
         
         let savedEntry = PictureEntry(
             id: savingEntry.id,
-            name: newName,
-            imageData: savingEntry.imageData
+            name: name,
+            imageData: savingEntry.imageData,
+            latitude: savingEntry.latitude,
+            longitude: savingEntry.longitude
         )
         
         entries.append(savedEntry)
