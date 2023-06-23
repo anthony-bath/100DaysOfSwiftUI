@@ -7,26 +7,48 @@
 
 import SwiftUI
 
+@MainActor class DelayedUpdater: ObservableObject {
+    var value = 0 {
+        willSet {
+            objectWillChange.send()
+        }
+    }
+    
+    init() {
+        for i in 1...10 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i)) {
+                self.value += 1
+            }
+        }
+    }
+}
+
 struct ContentView: View {
-    @State private var selectedTab = 1
+    @StateObject private var updater = DelayedUpdater()
+    @State private var output = ""
     
     var body: some View {
-        TabView(selection: $selectedTab) {
-            Text("Tab 1")
-                .onTapGesture { selectedTab = 2}
-                .tabItem {
-                    Label("One", systemImage: "star")
-                }
-                .tag(1)
-                
+        Text(output)
+            .task { await fetchReadings() }
+    }
+    
+    func fetchReadings() async {
+        let fetchTask = Task { () -> String in
+            let url = URL(string: "https://hws.dev/readings.json")!
+            let (data,_) = try await URLSession.shared.data(from: url)
+            let readings = try JSONDecoder().decode([Double].self, from: data)
             
-            Text("Tab 2")
-                .tabItem {
-                    Label("Two", systemImage: "trash")
-                }
-                .tag(2)
+            return "Found \(readings.count) Readings"
         }
-
+        
+        let result = await fetchTask.result
+        
+        switch result {
+        case .success(let str):
+            output = str
+        case .failure(_):
+            output = "Download Failed"
+        }
     }
 }
 
