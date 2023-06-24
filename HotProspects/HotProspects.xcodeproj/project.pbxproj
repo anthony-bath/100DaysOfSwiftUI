@@ -83,6 +83,8 @@
 			dependencies = (
 			);
 			name = HotProspects;
+			packageProductDependencies = (
+			);
 			productName = HotProspects;
 			productReference = 92E544182A44F175002E6925 /* HotProspects.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +113,8 @@
 				Base,
 			);
 			mainGroup = 92E5440F2A44F175002E6925;
+			packageReferences = (
+			);
 			productRefGroup = 92E544192A44F175002E6925 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

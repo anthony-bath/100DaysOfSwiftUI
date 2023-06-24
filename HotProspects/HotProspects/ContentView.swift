@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import UserNotifications
+import SamplePackage
 
 @MainActor class DelayedUpdater: ObservableObject {
     var value = 0 {
@@ -26,10 +28,46 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var updater = DelayedUpdater()
     @State private var output = ""
+    @State private var backgroundColor = Color.red
+
     
     var body: some View {
-        Text(output)
-            .task { await fetchReadings() }
+        Text("Hello World")
+//        VStack {
+//            Text("Hello World")
+//                .padding()
+//                .background(backgroundColor)
+//
+//            Text("Change Color")
+//                .contextMenu {
+//                    Button("Red") { backgroundColor = .red}
+//                    Button("Green") { backgroundColor = .green }
+//                    Button("Blue") {  backgroundColor = .blue }
+//                }
+//            Button("Request Permission") {
+//                UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { success, error in
+//                    if success {
+//                        print("All set!")
+//                    } else if let error = error {
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//            }
+//
+//            Button("Schedule Notification") {
+//                let content = UNMutableNotificationContent()
+//                content.title = "Feed the Dogs"
+//                content.subtitle = "They look hungry"
+//                content.sound = UNNotificationSound.default
+//
+//                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+//
+//                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+//
+//                UNUserNotificationCenter.current().add(request)
+//            }
+//        }
+        
     }
     
     func fetchReadings() async {
