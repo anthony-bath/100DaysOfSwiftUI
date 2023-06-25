@@ -5,6 +5,7 @@
 //  Created by Anthony Bath on 6/24/23.
 //
 
+import CodeScanner
 import SwiftUI
 
 struct ProspectsView: View {
@@ -13,6 +14,7 @@ struct ProspectsView: View {
     }
     
     @EnvironmentObject var prospects: Prospects
+    @State private var isShowingScanner = false
     let filter: FilterType
     
     var body: some View {
@@ -26,18 +28,39 @@ struct ProspectsView: View {
                         Text(prospect.email)
                             .foregroundColor(.secondary)
                     }
+                    .swipeActions {
+                        if prospect.isContacted {
+                            Button {
+                                prospects.toggle(prospect)
+                            } label: {
+                                Label("Mark Un-contacted", systemImage: "person.crop.circle.badge.xmark")
+                            }
+                            .tint(.blue)
+                        } else {
+                            Button {
+                                prospects.toggle(prospect)
+                            } label: {
+                                Label("Mark Contacted", systemImage: "person.crop.circle.fill.badge.checkmark")
+                            }
+                            .tint(.green)
+                        }
+                    }
                 }
             }
             .navigationTitle(title)
             .toolbar {
                 Button {
-                    let prospect = Prospect()
-                    prospect.name = "Paul Hudson"
-                    prospect.email = "paul@hackingwithswift.com"
-                    prospects.people.append(prospect)
+                    isShowingScanner = true
                 } label: {
                     Label("Scan", systemImage: "qrcode.viewfinder")
                 }
+            }
+            .sheet(isPresented: $isShowingScanner) {
+                CodeScannerView(
+                    codeTypes: [.qr],
+                    simulatedData: "Paul Hudson\npaul@hackingwithswift.com",
+                    completion: handleScan
+                )
             }
         }
     }
@@ -63,6 +86,24 @@ struct ProspectsView: View {
             return prospects.people.filter { $0.isContacted }
         case .uncontacted:
             return prospects.people.filter { !$0.isContacted }
+        }
+    }
+    
+    func handleScan(result: Result<ScanResult, ScanError>) {
+        isShowingScanner = false
+        
+        switch result {
+        case .success(let success):
+            let details = success.string.components(separatedBy: "\n")
+            guard details.count == 2 else { return }
+            
+            let prospect = Prospect()
+            prospect.name = details[0]
+            prospect.email = details[1]
+            
+            prospects.people.append(prospect)
+        case .failure(let failure):
+            print("Scanning Failed: \(failure.localizedDescription)")
         }
     }
 }
