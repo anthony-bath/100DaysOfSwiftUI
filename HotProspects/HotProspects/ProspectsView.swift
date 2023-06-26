@@ -14,20 +14,37 @@ struct ProspectsView: View {
         case none, contacted, uncontacted
     }
     
+    enum SortType {
+        case name, email, dateAdded
+    }
+    
     @EnvironmentObject var prospects: Prospects
     @State private var isShowingScanner = false
+    @State private var isShowingSortDialog = false
+    @State private var sortType: SortType = .name
+    
     let filter: FilterType
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(filteredProspects) { prospect in
-                    VStack(alignment: .leading) {
-                        Text(prospect.name)
-                            .font(.headline)
+                ForEach(filteredSortedProspects) { prospect in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(prospect.name)
+                                .font(.headline)
+                            
+                            Text(prospect.email)
+                                .foregroundColor(.secondary)
+                        }
                         
-                        Text(prospect.email)
-                            .foregroundColor(.secondary)
+                        if filter == .none && prospect.isContacted {
+                            Spacer()
+                            
+                            Image(systemName: "checkmark.message.fill")
+                                .foregroundColor(.green)
+                                .padding(.trailing,5)
+                        }
                     }
                     .swipeActions {
                         if prospect.isContacted {
@@ -57,19 +74,46 @@ struct ProspectsView: View {
             }
             .navigationTitle(title)
             .toolbar {
-                Button {
-                    isShowingScanner = true
-                } label: {
-                    Label("Scan", systemImage: "qrcode.viewfinder")
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        isShowingSortDialog = true
+                    } label: {
+                        Label("Sort", systemImage: "arrow.up.arrow.down.square")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        isShowingScanner = true
+                    } label: {
+                        Label("Scan", systemImage: "qrcode.viewfinder")
+                    }
                 }
             }
             .sheet(isPresented: $isShowingScanner) {
                 CodeScannerView(
                     codeTypes: [.qr],
-                    simulatedData: "Paul Hudson\npaul@hackingwithswift.com",
+                    simulatedData: "Tom Hall\ntom@hackingwithswift.com",
                     completion: handleScan
                 )
             }
+            .confirmationDialog("Sort By", isPresented: $isShowingSortDialog, titleVisibility: .visible) {
+                Button("Name") {
+                    sortType = .name
+                    isShowingSortDialog = false
+                }
+                
+                Button("E-mail") {
+                    sortType = .email
+                    isShowingSortDialog = false
+                }
+                
+                Button("Date Added") {
+                    sortType = .dateAdded
+                    isShowingSortDialog = false
+                }
+            }
+
         }
     }
     
@@ -86,14 +130,25 @@ struct ProspectsView: View {
         }
     }
     
-    var filteredProspects: [Prospect] {
+    var filteredSortedProspects: [Prospect] {
+        var filtered: [Prospect]
+        
         switch filter {
         case .none:
-            return prospects.people
+            filtered = prospects.people
         case .contacted:
-            return prospects.people.filter { $0.isContacted }
+            filtered = prospects.people.filter { $0.isContacted }
         case .uncontacted:
-            return prospects.people.filter { !$0.isContacted }
+            filtered = prospects.people.filter { !$0.isContacted }
+        }
+        
+        switch sortType {
+        case .name:
+            return filtered.sorted { $0.name < $1.name }
+        case .email:
+            return filtered.sorted { $0.email < $1.email }
+        case .dateAdded:
+            return filtered.sorted { $0.dateAdded > $1.dateAdded }
         }
     }
     
@@ -105,11 +160,7 @@ struct ProspectsView: View {
             let details = success.string.components(separatedBy: "\n")
             guard details.count == 2 else { return }
             
-            let prospect = Prospect()
-            prospect.name = details[0]
-            prospect.email = details[1]
-            
-            prospects.add(prospect)
+            prospects.add(Prospect(name: details[0], email: details[1]))
         case .failure(let failure):
             print("Scanning Failed: \(failure.localizedDescription)")
         }

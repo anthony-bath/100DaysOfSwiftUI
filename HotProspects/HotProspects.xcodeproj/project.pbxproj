@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92C30EF62A49B98500A1F248 /* FileManger-DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C30EF52A49B98500A1F248 /* FileManger-DocumentsDirectory.swift */; };
 		92E5441C2A44F175002E6925 /* HotProspectsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E5441B2A44F175002E6925 /* HotProspectsApp.swift */; };
 		92E5441E2A44F175002E6925 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E5441D2A44F175002E6925 /* ContentView.swift */; };
 		92E544202A44F176002E6925 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92E5441F2A44F176002E6925 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		92C30EF52A49B98500A1F248 /* FileManger-DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManger-DocumentsDirectory.swift"; sourceTree = "<group>"; };
 		92E544182A44F175002E6925 /* HotProspects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotProspects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92E5441B2A44F175002E6925 /* HotProspectsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotProspectsApp.swift; sourceTree = "<group>"; };
 		92E5441D2A44F175002E6925 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,6 +44,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		92C30EF42A49B97600A1F248 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				92C30EF52A49B98500A1F248 /* FileManger-DocumentsDirectory.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		92E5440F2A44F175002E6925 = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +71,7 @@
 		92E5441A2A44F175002E6925 /* HotProspects */ = {
 			isa = PBXGroup;
 			children = (
+				92C30EF42A49B97600A1F248 /* Extensions */,
 				92E5441B2A44F175002E6925 /* HotProspectsApp.swift */,
 				92E5441D2A44F175002E6925 /* ContentView.swift */,
 				92E544302A47B6F9002E6925 /* Prospect.swift */,
@@ -161,6 +172,7 @@
 				92E544362A4881BB002E6925 /* ImageSaver.swift in Sources */,
 				92E544312A47B6F9002E6925 /* Prospect.swift in Sources */,
 				92E5442D2A479B85002E6925 /* ProspectsView.swift in Sources */,
+				92C30EF62A49B98500A1F248 /* FileManger-DocumentsDirectory.swift in Sources */,
 				92E5441E2A44F175002E6925 /* ContentView.swift in Sources */,
 				92E5441C2A44F175002E6925 /* HotProspectsApp.swift in Sources */,
 			);
