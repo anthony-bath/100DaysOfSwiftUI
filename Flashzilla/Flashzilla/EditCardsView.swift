@@ -24,7 +24,7 @@ struct EditCardsView: View {
                 }
                 
                 Section {
-                    ForEach(cards, id: \.self) { card in
+                    ForEach(cards) { card in
                         VStack(alignment: .leading) {
                             Text(card.prompt)
                                 .font(.headline)
@@ -41,7 +41,7 @@ struct EditCardsView: View {
                 Button("Done", action: done)
             }
             .listStyle(.grouped)
-            .onAppear(perform: loadData)
+            .onAppear { cards = CardsIO.load() }
         }
     }
     
@@ -49,33 +49,23 @@ struct EditCardsView: View {
         dismiss()
     }
     
-    func loadData() {
-        if let data = UserDefaults.standard.data(forKey: "Cards") {
-            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-                cards = decoded
-            }
-        }
-    }
-    
     func saveData() {
-        if let data = try? JSONEncoder().encode(cards) {
-            UserDefaults.standard.set(data, forKey: "Cards")
-        }
+        CardsIO.save(cards)
     }
     
     func addCard() {
         let trimmedPrompt = newPrompt.trimmingCharacters(in: .whitespaces)
         let trimmedAnswer = newAnswer.trimmingCharacters(in: .whitespaces)
-        print(trimmedPrompt)
-        print(trimmedAnswer)
-        
+
         guard trimmedPrompt.isEmpty == false && trimmedAnswer.isEmpty == false else { return }
         
-        print("adding Card")
         let card = Card(prompt: trimmedPrompt, answer: trimmedAnswer)
         
         cards.insert(card, at: 0)
         saveData()
+        
+        newPrompt = ""
+        newAnswer = ""
     }
     
     func removeCards(at offsets: IndexSet) {
