@@ -51,41 +51,51 @@ struct ContentView: View {
     let colors: [Color] = [.red, .green, .blue, .orange, .pink, .purple, .yellow]
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 0) {
-                ForEach(1..<20) { num in
+        GeometryReader { fullView in
+            ScrollView(.vertical) {
+                ForEach(0..<50) { index in
                     GeometryReader { geo in
-                        Text("Number \(num)")
-                            .font(.largeTitle)
-                            .padding()
-                            .background(.red)
+                        Text("Row #\(index)")
+                            .font(.title)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                Color(
+                                    hue: Double(1 - (geo.frame(in: .global).minY/fullView.size.height)),
+                                    saturation: 1,
+                                    brightness: 1
+                                )
+                            )
                             .rotation3DEffect(
-                                .degrees(-geo.frame(in: .global).minX) / 5,
+                                .degrees(geo.frame(in: .global).minY - fullView.size.height / 2) / 5,
                                 axis: (x: 0, y: 1, z: 0)
                             )
-                            .frame(width: 200, height: 200)
+                            .opacity(
+                                getOpacity(
+                                    y: geo.frame(in: .global).minY,
+                                    height: fullView.size.height
+                                )
+                            )
+                            .scaleEffect(
+                                getScale(
+                                    y: geo.frame(in: .global).minY,
+                                    height: fullView.size.height
+                                )
+                            )
                     }
-                    .frame(width: 200, height: 200)
+                    .frame(height: 40)
                 }
             }
         }
-//        GeometryReader { fullView in
-//            ScrollView {
-//                ForEach(0..<50) { index in
-//                    GeometryReader { geo in
-//                        Text("Row #\(index)")
-//                            .font(.title)
-//                            .frame(maxWidth: .infinity)
-//                            .background(colors[index % 7])
-//                            .rotation3DEffect(
-//                                .degrees(geo.frame(in: .global).minY - fullView.size.height / 2) / 5,
-//                                axis: (x: 0, y:1, z: 0)
-//                            )
-//                    }
-//                    .frame(height: 40)
-//                }
-//            }
-//        }
+    }
+    
+    func getScale(y: CGFloat, height: Double) -> Double {
+        let relativePos = y/height
+        return 0.5 + relativePos
+    }
+    
+    func getOpacity(y: CGFloat, height: Double) -> Double {
+        let relativePos = y/height
+        return 0.1 + relativePos
     }
 }
 
