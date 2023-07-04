@@ -15,6 +15,9 @@
 		92E57BCB2A52F91500E15EF7 /* RollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BCA2A52F91500E15EF7 /* RollView.swift */; };
 		92E57BCE2A53332B00E15EF7 /* DiceIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BCD2A53332B00E15EF7 /* DiceIO.swift */; };
 		92E57BD02A53338700E15EF7 /* FileManager-DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BCF2A53338700E15EF7 /* FileManager-DocumentsDirectory.swift */; };
+		92E57BD42A54BB7200E15EF7 /* Roll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BD32A54BB7200E15EF7 /* Roll.swift */; };
+		92E57BD62A54BC2000E15EF7 /* RollIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BD52A54BC2000E15EF7 /* RollIO.swift */; };
+		92E57BD82A54BD6600E15EF7 /* RollHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BD72A54BD6600E15EF7 /* RollHistoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		92E57BCA2A52F91500E15EF7 /* RollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollView.swift; sourceTree = "<group>"; };
 		92E57BCD2A53332B00E15EF7 /* DiceIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceIO.swift; sourceTree = "<group>"; };
 		92E57BCF2A53338700E15EF7 /* FileManager-DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager-DocumentsDirectory.swift"; sourceTree = "<group>"; };
+		92E57BD32A54BB7200E15EF7 /* Roll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Roll.swift; sourceTree = "<group>"; };
+		92E57BD52A54BC2000E15EF7 /* RollIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollIO.swift; sourceTree = "<group>"; };
+		92E57BD72A54BD6600E15EF7 /* RollHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollHistoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +69,9 @@
 				92E57BBA2A52F32300E15EF7 /* DiceRollrApp.swift */,
 				92E57BBC2A52F32300E15EF7 /* ContentView.swift */,
 				92E57BCA2A52F91500E15EF7 /* RollView.swift */,
+				92E57BD72A54BD6600E15EF7 /* RollHistoryView.swift */,
 				92E57BC82A52F8A200E15EF7 /* Dice.swift */,
+				92E57BD32A54BB7200E15EF7 /* Roll.swift */,
 				92E57BBE2A52F32400E15EF7 /* Assets.xcassets */,
 				92E57BC02A52F32400E15EF7 /* Preview Content */,
 			);
@@ -82,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				92E57BCD2A53332B00E15EF7 /* DiceIO.swift */,
+				92E57BD52A54BC2000E15EF7 /* RollIO.swift */,
 				92E57BCF2A53338700E15EF7 /* FileManager-DocumentsDirectory.swift */,
 			);
 			path = Persistence;
@@ -157,7 +166,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92E57BD62A54BC2000E15EF7 /* RollIO.swift in Sources */,
+				92E57BD82A54BD6600E15EF7 /* RollHistoryView.swift in Sources */,
 				92E57BD02A53338700E15EF7 /* FileManager-DocumentsDirectory.swift in Sources */,
+				92E57BD42A54BB7200E15EF7 /* Roll.swift in Sources */,
 				92E57BCE2A53332B00E15EF7 /* DiceIO.swift in Sources */,
 				92E57BBD2A52F32300E15EF7 /* ContentView.swift in Sources */,
 				92E57BCB2A52F91500E15EF7 /* RollView.swift in Sources */,

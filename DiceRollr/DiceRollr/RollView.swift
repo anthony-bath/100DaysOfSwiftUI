@@ -5,13 +5,16 @@
 //  Created by Anthony Bath on 7/3/23.
 //
 
+import CoreHaptics
 import SwiftUI
 
 struct RollView: View {
-    let DiceValues = [6, 10, 12, 20, 100]
+    let DiceValues = [4, 6, 10, 12, 20, 100]
+    
     @State private var die = [Dice]()
     @State private var isEditing = false
-    
+    @State private var engine: CHHapticEngine?
+    var onRoll: (Roll) -> Void
     
     private var columns: [GridItem] {
         if die.count == 1 || die.count == 3 {
@@ -38,12 +41,26 @@ struct RollView: View {
                                             .onTapGesture { updateDice(dice, direction: -1) }
                                     }
                                     
-                                    Text("\(dice.value)")
-                                        .frame(width: 64, height: 64)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(.primary, lineWidth: 2)
-                                        )
+                                    ZStack {
+                                        Group {
+                                            if let roll = dice.rolledValue {
+                                                Text("\(roll)")
+                                            } else {
+                                                Text("?")
+                                            }
+                                        }
+                                        .frame(width: 64, height: 64, alignment: .top)
+                                        .font(.title)
+
+                                        Text("\(dice.value)")
+                                            .font(.caption)
+                                            .padding(3)
+                                            .frame(width: 64, height: 64, alignment: .bottom)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .stroke(.primary, lineWidth: 2)
+                                            )
+                                    }
                                     
                                     if isEditing {
                                         Image(systemName: "chevron.right")
@@ -53,11 +70,15 @@ struct RollView: View {
                                 
                                 if isEditing {
                                     Button(role: .destructive) {
-                                        die.removeAll { $0 == dice }
-                                        
-                                        if die.count == 0 {
-                                            isEditing = false
+                                        withAnimation {
+                                            die.removeAll { $0 == dice }
+                                            
+                                            if die.count == 0 {
+                                                isEditing = false
+                                            }
                                         }
+                                        
+                                        DiceSaver().save(die)
                                     } label: {
                                         Image(systemName: "minus.circle")
                                     }
@@ -86,7 +107,9 @@ struct RollView: View {
                     
                     if !isEditing {
                         Button {
-                            
+                            rollHaptics()
+                            die.forEach { rollDice($0)}
+                            onRoll(Roll(die: die))
                         } label: {
                             Label("Roll", systemImage: "dice.fill")
                         }
@@ -122,7 +145,45 @@ struct RollView: View {
                 }
             }
             .navigationTitle("Your Dice")
-            .onAppear { die = DiceLoader().load() }
+            .onAppear {
+                die = DiceLoader().load()
+                prepareHaptics()
+            }
+        }
+    }
+    
+    func prepareHaptics() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        
+        do {
+            engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("Error creating Haptics Engine: \(error.localizedDescription)")
+        }
+    }
+    
+    func rollHaptics() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        
+        var events = [CHHapticEvent]()
+        
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+        let event = CHHapticEvent(
+            eventType: .hapticTransient,
+            parameters: [intensity, sharpness],
+            relativeTime: 0
+        )
+        
+        events.append(event)
+        
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play Haptics: \(error.localizedDescription)")
         }
     }
     
@@ -146,14 +207,28 @@ struct RollView: View {
         DiceSaver().save(die)
     }
     
+    func rollDice(_ dice: Dice) {
+        let currentDiceIndex = die.firstIndex(of: dice) ?? 0
+        let rollValue = Int.random(in: 1...dice.value)
+        
+        let updatedDice = Dice(id: dice.id, value: dice.value, rolledValue: rollValue)
+        
+        withAnimation {
+            die.remove(at: currentDiceIndex)
+            die.insert(updatedDice, at: currentDiceIndex)
+        }
+        
+        DiceSaver().save(die)
+    }
+    
     func addDice() {
-        die.append(Dice())
+        withAnimation { die.append(Dice()) }
         DiceSaver().save(die)
     }
 }
 
 struct RollView_Previews: PreviewProvider {
     static var previews: some View {
-        RollView()
+        RollView(onRoll: { _ in })
     }
 }

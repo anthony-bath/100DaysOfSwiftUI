@@ -7,7 +7,7 @@
 
 import Foundation
 
-let PATH = FileManager.documentsDirectory.appendingPathComponent("Dice")
+fileprivate let PATH = FileManager.documentsDirectory.appendingPathComponent("Dice")
 
 struct DiceSaver {
     func save(_ die: [Dice]) {

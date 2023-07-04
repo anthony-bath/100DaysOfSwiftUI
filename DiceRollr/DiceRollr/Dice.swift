@@ -10,6 +10,7 @@ import Foundation
 struct Dice: Identifiable, Codable, Equatable {
     var id = UUID()
     var value = 6
+    var rolledValue: Int?
     
     static func ==(lhs: Dice, rhs: Dice) -> Bool {
         lhs.id == rhs.id
