@@ -24,6 +24,14 @@ struct RollView: View {
         return [GridItem(.flexible()), GridItem(.flexible())]
     }
     
+    private var totalRoll: String {
+        if die.allSatisfy({ $0.rolledValue == nil }) {
+            return "?"
+        }
+        
+        return "\(die.compactMap { $0.rolledValue }.reduce(0, { $0 + $1 }))"
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .center) {
@@ -106,19 +114,23 @@ struct RollView: View {
                     
                     
                     if !isEditing {
-                        Button {
-                            rollHaptics()
-                            die.forEach { rollDice($0)}
-                            onRoll(Roll(die: die))
-                        } label: {
-                            Label("Roll", systemImage: "dice.fill")
+                        HStack {
+                            Button {
+                                rollHaptics()
+                                die.forEach { rollDice($0)}
+                                onRoll(Roll(die: die))
+                            } label: {
+                                Label("Roll", systemImage: "dice.fill")
+                            }
+                            .padding()
+                            .padding([.leading,.trailing])
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.blue, lineWidth: 2)
+                            )
+                            
+                            Text("Total Roll: \(totalRoll)")
                         }
-                        .padding()
-                        .padding([.leading,.trailing])
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.blue, lineWidth: 2)
-                        )
                     }
                 } else {
                     Text("Add a Dice to get started!")
