@@ -1,0 +1,372 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		92E57BE62A558FFA00E15EF7 /* SnowSneekerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BE52A558FFA00E15EF7 /* SnowSneekerApp.swift */; };
+		92E57BE82A558FFA00E15EF7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BE72A558FFA00E15EF7 /* ContentView.swift */; };
+		92E57BEA2A558FFC00E15EF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92E57BE92A558FFC00E15EF7 /* Assets.xcassets */; };
+		92E57BED2A558FFC00E15EF7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92E57BEC2A558FFC00E15EF7 /* Preview Assets.xcassets */; };
+		92E57BF42A55D19900E15EF7 /* resorts.json in Resources */ = {isa = PBXBuildFile; fileRef = 92E57BF32A55D19900E15EF7 /* resorts.json */; };
+		92E57BF62A55D22500E15EF7 /* Resort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BF52A55D22500E15EF7 /* Resort.swift */; };
+		92E57BF82A55D2CC00E15EF7 /* Bundle-Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BF72A55D2CC00E15EF7 /* Bundle-Decodable.swift */; };
+		92E57BFA2A55D6D600E15EF7 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BF92A55D6D600E15EF7 /* WelcomeView.swift */; };
+		92E57BFC2A56D6E600E15EF7 /* ResortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BFB2A56D6E600E15EF7 /* ResortView.swift */; };
+		92E57BFE2A56D86800E15EF7 /* SkiDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BFD2A56D86800E15EF7 /* SkiDetailsView.swift */; };
+		92E57C002A56D92B00E15EF7 /* ResortDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E57BFF2A56D92B00E15EF7 /* ResortDetailsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		92E57BE22A558FFA00E15EF7 /* SnowSneeker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnowSneeker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		92E57BE52A558FFA00E15EF7 /* SnowSneekerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowSneekerApp.swift; sourceTree = "<group>"; };
+		92E57BE72A558FFA00E15EF7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		92E57BE92A558FFC00E15EF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		92E57BEC2A558FFC00E15EF7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		92E57BF32A55D19900E15EF7 /* resorts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resorts.json; sourceTree = "<group>"; };
+		92E57BF52A55D22500E15EF7 /* Resort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resort.swift; sourceTree = "<group>"; };
+		92E57BF72A55D2CC00E15EF7 /* Bundle-Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle-Decodable.swift"; sourceTree = "<group>"; };
+		92E57BF92A55D6D600E15EF7 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		92E57BFB2A56D6E600E15EF7 /* ResortView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResortView.swift; sourceTree = "<group>"; };
+		92E57BFD2A56D86800E15EF7 /* SkiDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkiDetailsView.swift; sourceTree = "<group>"; };
+		92E57BFF2A56D92B00E15EF7 /* ResortDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResortDetailsView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		92E57BDF2A558FFA00E15EF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		92E57BD92A558FFA00E15EF7 = {
+			isa = PBXGroup;
+			children = (
+				92E57BE42A558FFA00E15EF7 /* SnowSneeker */,
+				92E57BE32A558FFA00E15EF7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		92E57BE32A558FFA00E15EF7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92E57BE22A558FFA00E15EF7 /* SnowSneeker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		92E57BE42A558FFA00E15EF7 /* SnowSneeker */ = {
+			isa = PBXGroup;
+			children = (
+				92E57BE52A558FFA00E15EF7 /* SnowSneekerApp.swift */,
+				92E57BE72A558FFA00E15EF7 /* ContentView.swift */,
+				92E57BFB2A56D6E600E15EF7 /* ResortView.swift */,
+				92E57BF92A55D6D600E15EF7 /* WelcomeView.swift */,
+				92E57BFF2A56D92B00E15EF7 /* ResortDetailsView.swift */,
+				92E57BFD2A56D86800E15EF7 /* SkiDetailsView.swift */,
+				92E57BF52A55D22500E15EF7 /* Resort.swift */,
+				92E57BF72A55D2CC00E15EF7 /* Bundle-Decodable.swift */,
+				92E57BF32A55D19900E15EF7 /* resorts.json */,
+				92E57BE92A558FFC00E15EF7 /* Assets.xcassets */,
+				92E57BEB2A558FFC00E15EF7 /* Preview Content */,
+			);
+			path = SnowSneeker;
+			sourceTree = "<group>";
+		};
+		92E57BEB2A558FFC00E15EF7 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				92E57BEC2A558FFC00E15EF7 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		92E57BE12A558FFA00E15EF7 /* SnowSneeker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92E57BF02A558FFC00E15EF7 /* Build configuration list for PBXNativeTarget "SnowSneeker" */;
+			buildPhases = (
+				92E57BDE2A558FFA00E15EF7 /* Sources */,
+				92E57BDF2A558FFA00E15EF7 /* Frameworks */,
+				92E57BE02A558FFA00E15EF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SnowSneeker;
+			productName = SnowSneeker;
+			productReference = 92E57BE22A558FFA00E15EF7 /* SnowSneeker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		92E57BDA2A558FFA00E15EF7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					92E57BE12A558FFA00E15EF7 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+				};
+			};
+			buildConfigurationList = 92E57BDD2A558FFA00E15EF7 /* Build configuration list for PBXProject "SnowSneeker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 92E57BD92A558FFA00E15EF7;
+			productRefGroup = 92E57BE32A558FFA00E15EF7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				92E57BE12A558FFA00E15EF7 /* SnowSneeker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		92E57BE02A558FFA00E15EF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92E57BF42A55D19900E15EF7 /* resorts.json in Resources */,
+				92E57BED2A558FFC00E15EF7 /* Preview Assets.xcassets in Resources */,
+				92E57BEA2A558FFC00E15EF7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		92E57BDE2A558FFA00E15EF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92E57BFA2A55D6D600E15EF7 /* WelcomeView.swift in Sources */,
+				92E57BFE2A56D86800E15EF7 /* SkiDetailsView.swift in Sources */,
+				92E57C002A56D92B00E15EF7 /* ResortDetailsView.swift in Sources */,
+				92E57BE82A558FFA00E15EF7 /* ContentView.swift in Sources */,
+				92E57BF62A55D22500E15EF7 /* Resort.swift in Sources */,
+				92E57BFC2A56D6E600E15EF7 /* ResortView.swift in Sources */,
+				92E57BE62A558FFA00E15EF7 /* SnowSneekerApp.swift in Sources */,
+				92E57BF82A55D2CC00E15EF7 /* Bundle-Decodable.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		92E57BEE2A558FFC00E15EF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		92E57BEF2A558FFC00E15EF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		92E57BF12A558FFC00E15EF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SnowSneeker/Preview Content\"";
+				DEVELOPMENT_TEAM = 9QKNB7T994;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.anthonybath.SnowSneeker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		92E57BF22A558FFC00E15EF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SnowSneeker/Preview Content\"";
+				DEVELOPMENT_TEAM = 9QKNB7T994;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.anthonybath.SnowSneeker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		92E57BDD2A558FFA00E15EF7 /* Build configuration list for PBXProject "SnowSneeker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92E57BEE2A558FFC00E15EF7 /* Debug */,
+				92E57BEF2A558FFC00E15EF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		92E57BF02A558FFC00E15EF7 /* Build configuration list for PBXNativeTarget "SnowSneeker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92E57BF12A558FFC00E15EF7 /* Debug */,
+				92E57BF22A558FFC00E15EF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 92E57BDA2A558FFA00E15EF7 /* Project object */;
+}
